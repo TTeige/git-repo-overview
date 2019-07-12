@@ -29,7 +29,7 @@ def input_args():
     parser.add_argument('--output', '-o', help='output file name', default='checklist.md')
     parser.add_argument('--verbose', '-v', action='store_true')
     parser.add_argument('--links_inline', '-l', dest='links', help='write output as links', action='store_true')
-    parser.add_argument('--bitbucket_url', help='repository base url', default='https://stash.adeo.no/rest/api/1.0')
+    parser.add_argument('--bitbucket_url', help='repository base url')
     parser.add_argument('--bitbucket', help='Search bitbucket for repositories', default=True, action='store_true')
     parser.add_argument('--github', help='Search Github for repositories', default=True, action='store_true')
     parser.add_argument('--github_login_user', help='Github username', default=os.environ.get("GITHUB_USERNAME"),
