@@ -149,16 +149,20 @@ def handle_bitbucket(args):
 
 
 def handle_github(args):
+    repos = []
     if args.github_user != "" and args.github_user is not None:
         query_string = "/search/repositories?q=user:" + args.github_user
+        repos.extend(get_github_repos(args, query_string))
     else:
-        names = ""
+        query_string = "/search/repositories?q=org:" + args.github_org
         if args.names is not None:
-            # names = "+".join(args.names) + "+"
-            names = args.names[2] + "+"
-        query_string = "/search/repositories?q=" + names + "org:" + args.github_org
+            for n in args.names:
+                local_query = query_string + "+" + n
+                repos.extend(get_github_repos(args, local_query))
+        else:
+            repos.extend(get_github_repos(args, query_string))
 
-    return get_github_repos(args, query_string)
+    return repos
 
 
 def get_github_repos(args, query_string):
