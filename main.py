@@ -38,6 +38,7 @@ def input_args():
                         dest='g_pw')
     parser.add_argument('--github_org', help='Organization to search through', default='navikt')
     parser.add_argument('--github_user', help='User to search through')
+    parser.add_argument('--bitbucket_project', help='Bitbucket project', default='FEL')
     parser.add_argument('--exclude', help='exclude names', nargs='*')
 
     return parser.parse_args()
@@ -93,11 +94,13 @@ def match_names(args, matching_repos, i):
 
 def get_bitbucket_repos(args, proxies, obj=None):
     if obj is not None:
-        resp = requests.get(args.bitbucket_url + "/projects/FEL/repos?start=" + str(obj.nextPageStart), verify=False,
-                            auth=HTTPBasicAuth(args.b_user, args.b_pw),
-                            proxies=proxies)
+        resp = requests.get(
+            args.bitbucket_url + "/projects/" + args.bitbucket_project + "/repos?start=" + str(obj.nextPageStart),
+            verify=False,
+            auth=HTTPBasicAuth(args.b_user, args.b_pw),
+            proxies=proxies)
     else:
-        resp = requests.get(args.bitbucket_url + "/projects/FEL/repos", verify=False,
+        resp = requests.get(args.bitbucket_url + "/projects/" + args.bitbucket_project + "/repos", verify=False,
                             auth=HTTPBasicAuth(args.b_user, args.b_pw),
                             proxies=proxies)
     return resp.json(object_hook=_json_object_hook)
